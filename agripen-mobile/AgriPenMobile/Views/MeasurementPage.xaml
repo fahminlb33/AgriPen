@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriPenMobile.Views.MeasurementPage"
+             Title="Analisis Lahan">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Start">
+            <!-- Photo -->
+            <Button Margin="10" Text="Tambah Foto" Command="{Binding TakePhotoCommand}" IsVisible="{Binding IsScanEnabled}" />
+            <Label  Margin="10" Text="{Binding PhotoStatus}"  IsVisible="{Binding IsScanEnabled}" />
+
+            <!-- Scan -->
+            <Button Margin="10" FontSize="Large" Text="Mulai" Command="{Binding ScanCommand}" IsVisible="{Binding IsScanEnabled}" />
+
+            <!-- Telemetry View -->
+            <Label Margin="20" FontSize="32" HorizontalOptions="Center" Text="{Binding Status}" />
+            <StackLayout Margin="20,0,20,60" VerticalOptions="Fill" BindableLayout.ItemsSource="{Binding Measurements}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Value}" />
+                        </StackLayout>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriPenMobile.Views.UploadDiseasePage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="Analisis Penyakit">    
+    <VerticalStackLayout>
+        <Button Margin="10" HeightRequest="70" FontSize="Medium" Text="Pilih Foto"
+                IsEnabled="{Binding IsUploadEnabled}"
+                Command="{Binding SelectUploadCommand}" />
+        <Label Text="Mengunggah foto..." HorizontalOptions="Center" Margin="20"
+               IsVisible="{Binding IsUploadProgessVisible}" />
+        <Image BackgroundColor="White" Margin="30"
+               Source="{Binding SelectedImage}" />
+    </VerticalStackLayout>
+</ContentPage>

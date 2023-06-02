@@ -1,0 +1,11 @@
+azure-storage-blob==12.13.1
+joblib==1.1.0
+matplotlib==3.5.1
+scikit_image==0.19.3
+SQLAlchemy==2.0.15
+protobuf==3.20.*
+pyodbc==4.0.39
+redis==4.5.4
+pandas==2.0.1
+python-dotenv==1.0.0
+ulid-py==1.1.0

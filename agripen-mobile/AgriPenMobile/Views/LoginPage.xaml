@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriPenMobile.Views.LoginPage"
+             Title="Login">
+    <VerticalStackLayout>
+        <VerticalStackLayout Padding="10">
+            <Label Text="Username/Email" Margin="0,15,0,0" />
+            <Entry Text="{Binding Username, Mode=TwoWay}" 
+                   IsEnabled="{Binding IsInputEnabled}"
+                   Margin="5,0,0,0"
+                   Placeholder="Username/Email"
+                   FontSize="18">
+            </Entry>
+            <Label Text="Password" Margin="0,15,0,0" />
+            <Entry Text="{Binding Password, Mode=TwoWay}"
+                   IsEnabled="{Binding IsInputEnabled}"
+                   Margin="5,0,0,0"
+                   Placeholder="Password"
+                   IsPassword="True" 
+                   FontSize="18">
+            </Entry>
+        </VerticalStackLayout>
+
+        <Button Margin="0,20,0,0" 
+                Command="{Binding LoginCommand}"
+                IsEnabled="{Binding IsLoginEnabled}"
+                Text="{Binding LoginText}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="FillAndExpand" />
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgriPenMobile.Views.HomePage"
+             Title="AgriPen">
+    <VerticalStackLayout VerticalOptions="Start">
+        <StackLayout Margin="50" VerticalOptions="Fill">
+            <Label Text="Artificial Intelligence Pertanian" HorizontalOptions="Center" />
+            <Label Text="AgriPen" FontSize="48" FontAttributes="Bold" HorizontalOptions="Center" />
+
+            <Label Text="{Binding Status}" Margin="0,40,0,30" HorizontalOptions="Center" />
+
+            <Button Margin="10" HeightRequest="70" FontSize="Medium" Text="Akun" 
+                    Command="{Binding AccountCommand}" />
+            <Button Margin="10" HeightRequest="70" FontSize="Medium" Text="Analisis Penyakit" 
+                    IsEnabled="{Binding IsAnalysisEnabled}" Command="{Binding DiseaseAnalysisCommand}" />
+            <Button Margin="10" HeightRequest="70" FontSize="Medium" Text="Analisis Lahan" 
+                    IsEnabled="{Binding IsAnalysisEnabled}" Command="{Binding LandAnalysisCommand}" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
+    

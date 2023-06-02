@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:AgriPenMobile.Views"
+       x:Class="AgriPenMobile.AppShell"
+       FlyoutBehavior="Disabled">
+    <ShellContent Route="home" Title="AgriPen" ContentTemplate="{DataTemplate views:HomePage}" />
+    <ShellContent Route="account" Title="Akun" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <ShellContent Route="analysis_disease" Title="Analisis Penyakit" ContentTemplate="{DataTemplate views:UploadDiseasePage}" />
+    <ShellContent Route="analysis_land" Title="Analisis Lahan" ContentTemplate="{DataTemplate views:MeasurementPage}" />
+</Shell>
