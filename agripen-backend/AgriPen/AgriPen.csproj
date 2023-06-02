@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="API\Analysis\**" />
+    <Content Remove="API\Analysis\**" />
+    <EmbeddedResource Remove="API\Analysis\**" />
+    <None Remove="API\Analysis\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastEndpoints" Version="5.11.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.11.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.11.0" />
@@ -32,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="API\Analysis\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

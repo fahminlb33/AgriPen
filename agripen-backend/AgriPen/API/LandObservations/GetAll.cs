@@ -14,8 +14,8 @@ public class ListItem
     public Ulid Id { get; set; }
     public double AirTemperature { get; set; }
     public double AirHumidity { get; set; }
+    public double AirHeatIndex { get; set; }
     public double SoilMoisture { get; set; }
-    public double SoilTemperature { get; set; }
     public double SunIllumination { get; set; }
     public string GpsLocation { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
@@ -50,8 +50,8 @@ public class GetAllEndpoint : Endpoint<DefaultPaginationRequest, PaginationRespo
 
                 AirTemperature = x.Telemetries.Average(x => x.AirTemperature),
                 AirHumidity = x.Telemetries.Average(x => x.AirHumidity),
+                AirHeatIndex = x.Telemetries.Average(x => x.AirHeatIndex),
                 SoilMoisture = x.Telemetries.Average(x => x.SoilMoisture),
-                SoilTemperature = x.Telemetries.Average(x => x.SoilTemperature),
                 SunIllumination = x.Telemetries.Average(x => x.SunIllumination),
 
                 GpsLocation = x.GpsAddress.GeocodedAddress,
@@ -81,7 +81,7 @@ public class GetAllEndpoint : Endpoint<DefaultPaginationRequest, PaginationRespo
                 "airtemperature" => query.ApplySort(x => x.AirTemperature, req.OrderDirection),
                 "airhumidity" => query.ApplySort(x => x.AirHumidity, req.OrderDirection),
                 "soilmoisture" => query.ApplySort(x => x.SoilMoisture, req.OrderDirection),
-                "soiltemperature" => query.ApplySort(x => x.SoilTemperature, req.OrderDirection),
+                "airheatindex" => query.ApplySort(x => x.AirHeatIndex, req.OrderDirection),
                 "sunillumination" => query.ApplySort(x => x.SunIllumination, req.OrderDirection),
 
                 "gpslocation" => query.ApplySort(x => x.GpsLocation, req.OrderDirection),

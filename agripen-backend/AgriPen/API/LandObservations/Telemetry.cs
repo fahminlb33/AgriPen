@@ -84,8 +84,8 @@ public class TelemetryEndpoint : Endpoint<TelemetryRequest, TelemetryResponse>
                 Timestamp = x.Timestamp,
                 AirTemperature = x.AirTemperature,
                 AirHumidity = x.AirHumidity,
+                AirHeatIndex = x.AirHeatIndex,
                 SoilMoisture = x.SoilMoisture,
-                SoilTemperature = x.SoilTemperature,
                 SunIllumination = x.SunIllumination,
             }).ToList(),
 

@@ -14,8 +14,8 @@ public class LandObservationItem
 
     public double AirTemperature { get; set; }
     public double AirHumidity { get; set; }
+    public double AirHeatIndex { get; set; }
     public double SoilMoisture { get; set; }
-    public double SoilTemperature { get; set; }
     public double SunIllumination { get; set; }
 }
 
@@ -50,8 +50,8 @@ public class LandObservationEndpoint : EndpointWithoutRequest
 
                 AirTemperature = x.Telemetries.Average(x => x.AirTemperature),
                 AirHumidity = x.Telemetries.Average(x => x.AirHumidity),
+                AirHeatIndex = x.Telemetries.Average(x => x.AirHeatIndex),
                 SoilMoisture = x.Telemetries.Average(x => x.SoilMoisture),
-                SoilTemperature = x.Telemetries.Average(x => x.SoilTemperature),
                 SunIllumination = x.Telemetries.Average(x => x.SunIllumination),
             })
             .ToListAsync(ct);

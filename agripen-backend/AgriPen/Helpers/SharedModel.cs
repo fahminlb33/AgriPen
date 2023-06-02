@@ -27,8 +27,8 @@ public class TelemetryDto
     public DateTimeOffset Timestamp { get; set; }
     public double AirTemperature { get; set; }
     public double AirHumidity { get; set; }
+    public double AirHeatIndex { get; set; }
     public double SoilMoisture { get; set; }
-    public double SoilTemperature { get; set; }
     public double SunIllumination { get; set; }
 }
 
@@ -67,8 +67,8 @@ public static class MapperHelper
         {
             AirTemperature = location.AirTemperature,
             AirHumidity = location.AirHumidity,
+            AirHeatIndex = location.AirHeatIndex,
             SoilMoisture = location.SoilMoisture,
-            SoilTemperature = location.SoilTemperature,
             SunIllumination = location.SunIllumination,
         };
     }
