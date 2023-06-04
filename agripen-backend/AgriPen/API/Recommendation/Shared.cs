@@ -71,11 +71,6 @@ public class PlantPhDto
 
 public static class PlantHelpers
 {
-    public static double LbsPerAcreToPpm(double v)
-    {
-        return v * 0.5;
-    }
-
     public static PlantSeasonDto ToDto(this PlantSeason season)
     {
         return new()
@@ -95,6 +90,7 @@ public static class PlantHelpers
     public static List<PlantNitrogenDto> ToDto(this IEnumerable<PlantNitrogen> d)
     {
         return d
+            .DistinctBy(x => x.Id)
             .Select(x => new PlantNitrogenDto()
             {
                 Nitrogen = x.Nitrogen,
@@ -106,13 +102,14 @@ public static class PlantHelpers
     public static List<PlantPhosporusDto> ToDto(this IEnumerable<PlantPhosporus> d)
     {
         return d
+            .DistinctBy(x => x.Id)
             .Select(x => new PlantPhosporusDto()
             {
-                Category1 = LbsPerAcreToPpm(x.Category1),
-                Category2 = LbsPerAcreToPpm(x.Category2),
-                Category3 = LbsPerAcreToPpm(x.Category3),
-                Category4 = LbsPerAcreToPpm(x.Category4),
-                Category5 = LbsPerAcreToPpm(x.Category5),
+                Category1 = x.Category1,
+                Category2 = x.Category2,
+                Category3 = x.Category3,
+                Category4 = x.Category4,
+                Category5 = x.Category5,
                 Notes = x.Notes,
             })
             .ToList();
@@ -121,13 +118,14 @@ public static class PlantHelpers
     public static List<PlantPotassiumDto> ToDto(this IEnumerable<PlantPotassium> d)
     {
         return d
+            .DistinctBy(x => x.Id)
             .Select(x => new PlantPotassiumDto()
             {
-                Category1 = LbsPerAcreToPpm(x.Category1),
-                Category2 = LbsPerAcreToPpm(x.Category2),
-                Category3 = LbsPerAcreToPpm(x.Category3),
-                Category4 = LbsPerAcreToPpm(x.Category4),
-                Category5 = LbsPerAcreToPpm(x.Category5),
+                Category1 = x.Category1,
+                Category2 = x.Category2,
+                Category3 = x.Category3,
+                Category4 = x.Category4,
+                Category5 = x.Category5,
                 Notes = x.Notes,
             })
             .ToList();
@@ -136,6 +134,7 @@ public static class PlantHelpers
     public static List<PlantPhDto> ToDto(this IEnumerable<PlantPh> d)
     {
         return d
+            .DistinctBy(x => x.Id)
             .Select(x => new PlantPhDto()
             {
                 Optimal = x.Optimal,

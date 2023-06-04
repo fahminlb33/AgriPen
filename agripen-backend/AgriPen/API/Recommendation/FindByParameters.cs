@@ -27,7 +27,7 @@ public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<P
 
     public override void Configure()
     {
-        Get("/recommendation");
+        Get("/recommendation/params");
         Roles();
     }
 
@@ -40,6 +40,7 @@ public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<P
             .Include(x => x.Nitrogen)
             .Include(x => x.Phosporus)
             .Include(x => x.Potassium)
+            .Include(x => x.Ph)
             .AsQueryable();
 
         // filter by season

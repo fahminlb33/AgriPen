@@ -46,6 +46,7 @@ public class FindByObservationEndpoint : Endpoint<FindByObservationRequest, List
           .Include(x => x.Nitrogen)
           .Include(x => x.Phosporus)
           .Include(x => x.Potassium)
+          .Include(x => x.Ph)
           .AsQueryable();
 
         // filter by temperature

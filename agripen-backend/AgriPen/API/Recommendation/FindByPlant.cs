@@ -9,7 +9,7 @@ public class FindByPlantRequest
     public Ulid PlantId { get; set; }
 }
 
-public class FindByPlantEndpoint: Endpoint<FindByPlantRequest, PlantRecommendationDto>
+public class FindByPlantEndpoint : Endpoint<FindByPlantRequest, PlantRecommendationDto>
 {
     private readonly AgriDataContext _context;
 
@@ -20,7 +20,7 @@ public class FindByPlantEndpoint: Endpoint<FindByPlantRequest, PlantRecommendati
 
     public override void Configure()
     {
-        Get("/recommendation/{PlantId}");
+        Get("/recommendation/plants/{PlantId}");
         Roles();
     }
 
@@ -33,6 +33,7 @@ public class FindByPlantEndpoint: Endpoint<FindByPlantRequest, PlantRecommendati
             .Include(x => x.Nitrogen)
             .Include(x => x.Phosporus)
             .Include(x => x.Potassium)
+            .Include(x => x.Ph)
             .FirstOrDefaultAsync(x => x.Id == req.PlantId, ct);
 
         // plant is not found
