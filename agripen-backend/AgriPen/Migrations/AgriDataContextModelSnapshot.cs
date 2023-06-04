@@ -268,8 +268,16 @@ namespace AgriPen.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name_id");
 
+                    b.Property<string>("SeasonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("season_id");
+
                     b.HasKey("Id")
                         .HasName("pk_plants");
+
+                    b.HasIndex("SeasonId")
+                        .HasDatabaseName("ix_plants_season_id");
 
                     b.ToTable("plants", (string)null);
                 });
@@ -440,11 +448,6 @@ namespace AgriPen.Migrations
                         .HasColumnType("float")
                         .HasColumnName("humidity_low");
 
-                    b.Property<string>("PlantId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("plant_id");
-
                     b.Property<string>("Season")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -476,10 +479,6 @@ namespace AgriPen.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_plant_season");
-
-                    b.HasIndex("PlantId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_plant_season_plant_id");
 
                     b.ToTable("plant_season", (string)null);
                 });
@@ -693,6 +692,18 @@ namespace AgriPen.Migrations
                     b.Navigation("LocalAddress");
                 });
 
+            modelBuilder.Entity("AgriPen.Domain.Entities.Plant", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.PlantSeason", "Season")
+                        .WithMany("Plant")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plants_plant_season_season_id");
+
+                    b.Navigation("Season");
+                });
+
             modelBuilder.Entity("AgriPen.Domain.Entities.PlantNitrogen", b =>
                 {
                     b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
@@ -737,18 +748,6 @@ namespace AgriPen.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_plant_potassium_plants_plant_id");
-
-                    b.Navigation("Plant");
-                });
-
-            modelBuilder.Entity("AgriPen.Domain.Entities.PlantSeason", b =>
-                {
-                    b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
-                        .WithOne("Season")
-                        .HasForeignKey("AgriPen.Domain.Entities.PlantSeason", "PlantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_plant_season_plants_plant_id");
 
                     b.Navigation("Plant");
                 });
@@ -813,9 +812,11 @@ namespace AgriPen.Migrations
                     b.Navigation("Phosporus");
 
                     b.Navigation("Potassium");
+                });
 
-                    b.Navigation("Season")
-                        .IsRequired();
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantSeason", b =>
+                {
+                    b.Navigation("Plant");
                 });
 #pragma warning restore 612, 618
         }

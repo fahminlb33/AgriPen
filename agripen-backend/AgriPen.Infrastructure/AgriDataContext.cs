@@ -134,8 +134,8 @@ public class AgriDataContext : DbContext
         modelBuilder
             .Entity<Plant>()
             .HasOne(x => x.Season)
-            .WithOne(x => x.Plant)
-            .HasForeignKey<PlantSeason>(x => x.PlantId);
+            .WithMany(x => x.Plant)
+            .HasForeignKey(x => x.SeasonId);
         modelBuilder
             .Entity<Plant>()
             .HasMany(x => x.Nitrogen)

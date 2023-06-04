@@ -6,6 +6,7 @@ public class Plant
     public string Name { get; set; }
     public string NameID { get; set; }
 
+    public Ulid SeasonId { get; set; }
     public PlantSeason Season { get; set; }
     public List<PlantNitrogen> Nitrogen { get; set; }
     public List<PlantPhosporus> Phosporus { get; set; }
@@ -26,8 +27,7 @@ public class PlantSeason
     public double SoilMoistureLow { get; set; }
     public double SoilMoistureHigh { get; set; }
 
-    public Ulid PlantId { get; set; }
-    public Plant Plant { get; set; }
+    public List<Plant> Plant { get; set; }
 }
 
 public class PlantNitrogen

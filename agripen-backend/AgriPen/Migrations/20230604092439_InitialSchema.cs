@@ -48,6 +48,26 @@ namespace AgriPen.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "plant_season",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    season = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    temp_day_low = table.Column<double>(type: "float", nullable: false),
+                    temp_day_high = table.Column<double>(type: "float", nullable: false),
+                    temp_night_low = table.Column<double>(type: "float", nullable: false),
+                    temp_night_high = table.Column<double>(type: "float", nullable: false),
+                    humidity_low = table.Column<double>(type: "float", nullable: false),
+                    humidity_high = table.Column<double>(type: "float", nullable: false),
+                    soil_moisture_low = table.Column<double>(type: "float", nullable: false),
+                    soil_moisture_high = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plant_season", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -83,13 +103,13 @@ namespace AgriPen.Migrations
                 {
                     table.PrimaryKey("pk_disease_predictions", x => x.id);
                     table.ForeignKey(
-                        name: "fk_disease_predictions_gps_addresses_gps_address_temp_id",
+                        name: "fk_disease_predictions_gps_addresses_gps_address_id",
                         column: x => x.gps_address_id,
                         principalTable: "gps_addresses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_disease_predictions_local_addresses_local_address_temp_id",
+                        name: "fk_disease_predictions_local_addresses_local_address_id",
                         column: x => x.local_address_id,
                         principalTable: "local_addresses",
                         principalColumn: "id",
@@ -101,23 +121,22 @@ namespace AgriPen.Migrations
                 columns: table => new
                 {
                     id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    full_address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    created_at = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    updated_at = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     gps_address_id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
-                    local_address_id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false)
+                    local_address_id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updated_at = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_land_observations", x => x.id);
                     table.ForeignKey(
-                        name: "fk_land_observations_gps_addresses_gps_address_temp_id1",
+                        name: "fk_land_observations_gps_addresses_gps_address_id",
                         column: x => x.gps_address_id,
                         principalTable: "gps_addresses",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_land_observations_local_addresses_local_address_temp_id1",
+                        name: "fk_land_observations_local_addresses_local_address_id",
                         column: x => x.local_address_id,
                         principalTable: "local_addresses",
                         principalColumn: "id",
@@ -130,11 +149,12 @@ namespace AgriPen.Migrations
                 {
                     id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false),
                     timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    temperature = table.Column<double>(type: "float", nullable: false),
                     temperature_low = table.Column<double>(type: "float", nullable: false),
                     temperature_high = table.Column<double>(type: "float", nullable: false),
+                    humidity = table.Column<double>(type: "float", nullable: false),
                     humidity_low = table.Column<double>(type: "float", nullable: false),
                     humidity_high = table.Column<double>(type: "float", nullable: false),
-                    humidity = table.Column<double>(type: "float", nullable: false),
                     weather = table.Column<int>(type: "int", nullable: false),
                     wind = table.Column<int>(type: "int", nullable: false),
                     wind_speed = table.Column<double>(type: "float", nullable: false),
@@ -144,9 +164,29 @@ namespace AgriPen.Migrations
                 {
                     table.PrimaryKey("pk_weather_predictions", x => x.id);
                     table.ForeignKey(
-                        name: "fk_weather_predictions_local_addresses_local_address_temp_id2",
+                        name: "fk_weather_predictions_local_addresses_local_address_id",
                         column: x => x.local_address_id,
                         principalTable: "local_addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "plants",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    name_id = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    season_id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plants", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_plants_plant_season_season_id",
+                        column: x => x.season_id,
+                        principalTable: "plant_season",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -182,8 +222,8 @@ namespace AgriPen.Migrations
                     timestamp = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     air_temperature = table.Column<double>(type: "float", nullable: false),
                     air_humidity = table.Column<double>(type: "float", nullable: false),
+                    air_heat_index = table.Column<double>(type: "float", nullable: false),
                     soil_moisture = table.Column<double>(type: "float", nullable: false),
-                    soil_temperature = table.Column<double>(type: "float", nullable: false),
                     sun_illumination = table.Column<double>(type: "float", nullable: false),
                     observation_id = table.Column<string>(type: "nvarchar(26)", maxLength: 26, nullable: false)
                 },
@@ -191,9 +231,98 @@ namespace AgriPen.Migrations
                 {
                     table.PrimaryKey("pk_telemetries", x => x.id);
                     table.ForeignKey(
-                        name: "fk_telemetries_land_observations_observation_temp_id",
+                        name: "fk_telemetries_land_observations_observation_id",
                         column: x => x.observation_id,
                         principalTable: "land_observations",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "plant_nitrogen",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    nitrogen = table.Column<double>(type: "float", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    plant_id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plant_nitrogen", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_plant_nitrogen_plants_plant_id",
+                        column: x => x.plant_id,
+                        principalTable: "plants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "plant_ph",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    optimal = table.Column<double>(type: "float", nullable: false),
+                    minimum = table.Column<double>(type: "float", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    plant_id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plant_ph", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_plant_ph_plants_plant_id",
+                        column: x => x.plant_id,
+                        principalTable: "plants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "plant_phosporus",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    category1 = table.Column<double>(type: "float", nullable: false),
+                    category2 = table.Column<double>(type: "float", nullable: false),
+                    category3 = table.Column<double>(type: "float", nullable: false),
+                    category4 = table.Column<double>(type: "float", nullable: false),
+                    category5 = table.Column<double>(type: "float", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    plant_id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plant_phosporus", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_plant_phosporus_plants_plant_id",
+                        column: x => x.plant_id,
+                        principalTable: "plants",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "plant_potassium",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    category1 = table.Column<double>(type: "float", nullable: false),
+                    category2 = table.Column<double>(type: "float", nullable: false),
+                    category3 = table.Column<double>(type: "float", nullable: false),
+                    category4 = table.Column<double>(type: "float", nullable: false),
+                    category5 = table.Column<double>(type: "float", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    plant_id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_plant_potassium", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_plant_potassium_plants_plant_id",
+                        column: x => x.plant_id,
+                        principalTable: "plants",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,6 +354,31 @@ namespace AgriPen.Migrations
                 column: "local_address_id");
 
             migrationBuilder.CreateIndex(
+                name: "ix_plant_nitrogen_plant_id",
+                table: "plant_nitrogen",
+                column: "plant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_plant_ph_plant_id",
+                table: "plant_ph",
+                column: "plant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_plant_phosporus_plant_id",
+                table: "plant_phosporus",
+                column: "plant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_plant_potassium_plant_id",
+                table: "plant_potassium",
+                column: "plant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_plants_season_id",
+                table: "plants",
+                column: "season_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_telemetries_observation_id",
                 table: "telemetries",
                 column: "observation_id");
@@ -242,6 +396,18 @@ namespace AgriPen.Migrations
                 name: "disease_probability");
 
             migrationBuilder.DropTable(
+                name: "plant_nitrogen");
+
+            migrationBuilder.DropTable(
+                name: "plant_ph");
+
+            migrationBuilder.DropTable(
+                name: "plant_phosporus");
+
+            migrationBuilder.DropTable(
+                name: "plant_potassium");
+
+            migrationBuilder.DropTable(
                 name: "telemetries");
 
             migrationBuilder.DropTable(
@@ -254,7 +420,13 @@ namespace AgriPen.Migrations
                 name: "disease_predictions");
 
             migrationBuilder.DropTable(
+                name: "plants");
+
+            migrationBuilder.DropTable(
                 name: "land_observations");
+
+            migrationBuilder.DropTable(
+                name: "plant_season");
 
             migrationBuilder.DropTable(
                 name: "gps_addresses");

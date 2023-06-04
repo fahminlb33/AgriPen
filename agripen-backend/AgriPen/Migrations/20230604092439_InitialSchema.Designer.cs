@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AgriPen.Migrations
 {
     [DbContext(typeof(AgriDataContext))]
-    [Migration("20230528101307_InitialSchema")]
+    [Migration("20230604092439_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
@@ -182,12 +182,6 @@ namespace AgriPen.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasColumnName("created_at");
 
-                    b.Property<string>("FullAddress")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("full_address");
-
                     b.Property<string>("GpsAddressId")
                         .IsRequired()
                         .HasMaxLength(26)
@@ -261,12 +255,247 @@ namespace AgriPen.Migrations
                     b.ToTable("local_addresses", (string)null);
                 });
 
+            modelBuilder.Entity("AgriPen.Domain.Entities.Plant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NameID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("name_id");
+
+                    b.Property<string>("SeasonId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("season_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plants");
+
+                    b.HasIndex("SeasonId")
+                        .HasDatabaseName("ix_plants_season_id");
+
+                    b.ToTable("plants", (string)null);
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantNitrogen", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<double>("Nitrogen")
+                        .HasColumnType("float")
+                        .HasColumnName("nitrogen");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("PlantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("plant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plant_nitrogen");
+
+                    b.HasIndex("PlantId")
+                        .HasDatabaseName("ix_plant_nitrogen_plant_id");
+
+                    b.ToTable("plant_nitrogen", (string)null);
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPh", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<double>("Minimum")
+                        .HasColumnType("float")
+                        .HasColumnName("minimum");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("notes");
+
+                    b.Property<double>("Optimal")
+                        .HasColumnType("float")
+                        .HasColumnName("optimal");
+
+                    b.Property<string>("PlantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("plant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plant_ph");
+
+                    b.HasIndex("PlantId")
+                        .HasDatabaseName("ix_plant_ph_plant_id");
+
+                    b.ToTable("plant_ph", (string)null);
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPhosporus", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<double>("Category1")
+                        .HasColumnType("float")
+                        .HasColumnName("category1");
+
+                    b.Property<double>("Category2")
+                        .HasColumnType("float")
+                        .HasColumnName("category2");
+
+                    b.Property<double>("Category3")
+                        .HasColumnType("float")
+                        .HasColumnName("category3");
+
+                    b.Property<double>("Category4")
+                        .HasColumnType("float")
+                        .HasColumnName("category4");
+
+                    b.Property<double>("Category5")
+                        .HasColumnType("float")
+                        .HasColumnName("category5");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("PlantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("plant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plant_phosporus");
+
+                    b.HasIndex("PlantId")
+                        .HasDatabaseName("ix_plant_phosporus_plant_id");
+
+                    b.ToTable("plant_phosporus", (string)null);
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPotassium", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<double>("Category1")
+                        .HasColumnType("float")
+                        .HasColumnName("category1");
+
+                    b.Property<double>("Category2")
+                        .HasColumnType("float")
+                        .HasColumnName("category2");
+
+                    b.Property<double>("Category3")
+                        .HasColumnType("float")
+                        .HasColumnName("category3");
+
+                    b.Property<double>("Category4")
+                        .HasColumnType("float")
+                        .HasColumnName("category4");
+
+                    b.Property<double>("Category5")
+                        .HasColumnType("float")
+                        .HasColumnName("category5");
+
+                    b.Property<string>("Notes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("notes");
+
+                    b.Property<string>("PlantId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("plant_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plant_potassium");
+
+                    b.HasIndex("PlantId")
+                        .HasDatabaseName("ix_plant_potassium_plant_id");
+
+                    b.ToTable("plant_potassium", (string)null);
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantSeason", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<double>("HumidityHigh")
+                        .HasColumnType("float")
+                        .HasColumnName("humidity_high");
+
+                    b.Property<double>("HumidityLow")
+                        .HasColumnType("float")
+                        .HasColumnName("humidity_low");
+
+                    b.Property<string>("Season")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("season");
+
+                    b.Property<double>("SoilMoistureHigh")
+                        .HasColumnType("float")
+                        .HasColumnName("soil_moisture_high");
+
+                    b.Property<double>("SoilMoistureLow")
+                        .HasColumnType("float")
+                        .HasColumnName("soil_moisture_low");
+
+                    b.Property<double>("TempDayHigh")
+                        .HasColumnType("float")
+                        .HasColumnName("temp_day_high");
+
+                    b.Property<double>("TempDayLow")
+                        .HasColumnType("float")
+                        .HasColumnName("temp_day_low");
+
+                    b.Property<double>("TempNightHigh")
+                        .HasColumnType("float")
+                        .HasColumnName("temp_night_high");
+
+                    b.Property<double>("TempNightLow")
+                        .HasColumnType("float")
+                        .HasColumnName("temp_night_low");
+
+                    b.HasKey("Id")
+                        .HasName("pk_plant_season");
+
+                    b.ToTable("plant_season", (string)null);
+                });
+
             modelBuilder.Entity("AgriPen.Domain.Entities.Telemetry", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(26)
                         .HasColumnType("nvarchar(26)")
                         .HasColumnName("id");
+
+                    b.Property<double>("AirHeatIndex")
+                        .HasColumnType("float")
+                        .HasColumnName("air_heat_index");
 
                     b.Property<double>("AirHumidity")
                         .HasColumnType("float")
@@ -285,10 +514,6 @@ namespace AgriPen.Migrations
                     b.Property<double>("SoilMoisture")
                         .HasColumnType("float")
                         .HasColumnName("soil_moisture");
-
-                    b.Property<double>("SoilTemperature")
-                        .HasColumnType("float")
-                        .HasColumnName("soil_temperature");
 
                     b.Property<double>("SunIllumination")
                         .HasColumnType("float")
@@ -379,6 +604,10 @@ namespace AgriPen.Migrations
                         .HasColumnType("nvarchar(26)")
                         .HasColumnName("local_address_id");
 
+                    b.Property<double>("Temperature")
+                        .HasColumnType("float")
+                        .HasColumnName("temperature");
+
                     b.Property<double>("TemperatureHigh")
                         .HasColumnType("float")
                         .HasColumnName("temperature_high");
@@ -419,14 +648,14 @@ namespace AgriPen.Migrations
                         .HasForeignKey("GpsAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_disease_predictions_gps_addresses_gps_address_temp_id");
+                        .HasConstraintName("fk_disease_predictions_gps_addresses_gps_address_id");
 
                     b.HasOne("AgriPen.Domain.Entities.LocalAddress", "LocalAddress")
                         .WithMany("DiseasePredictions")
                         .HasForeignKey("LocalAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_disease_predictions_local_addresses_local_address_temp_id");
+                        .HasConstraintName("fk_disease_predictions_local_addresses_local_address_id");
 
                     b.Navigation("GpsAddress");
 
@@ -452,18 +681,78 @@ namespace AgriPen.Migrations
                         .HasForeignKey("GpsAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_land_observations_gps_addresses_gps_address_temp_id1");
+                        .HasConstraintName("fk_land_observations_gps_addresses_gps_address_id");
 
                     b.HasOne("AgriPen.Domain.Entities.LocalAddress", "LocalAddress")
                         .WithMany("LandObservations")
                         .HasForeignKey("LocalAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_land_observations_local_addresses_local_address_temp_id1");
+                        .HasConstraintName("fk_land_observations_local_addresses_local_address_id");
 
                     b.Navigation("GpsAddress");
 
                     b.Navigation("LocalAddress");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.Plant", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.PlantSeason", "Season")
+                        .WithMany("Plant")
+                        .HasForeignKey("SeasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plants_plant_season_season_id");
+
+                    b.Navigation("Season");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantNitrogen", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
+                        .WithMany("Nitrogen")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plant_nitrogen_plants_plant_id");
+
+                    b.Navigation("Plant");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPh", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
+                        .WithMany("Ph")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plant_ph_plants_plant_id");
+
+                    b.Navigation("Plant");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPhosporus", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
+                        .WithMany("Phosporus")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plant_phosporus_plants_plant_id");
+
+                    b.Navigation("Plant");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantPotassium", b =>
+                {
+                    b.HasOne("AgriPen.Domain.Entities.Plant", "Plant")
+                        .WithMany("Potassium")
+                        .HasForeignKey("PlantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_plant_potassium_plants_plant_id");
+
+                    b.Navigation("Plant");
                 });
 
             modelBuilder.Entity("AgriPen.Domain.Entities.Telemetry", b =>
@@ -473,7 +762,7 @@ namespace AgriPen.Migrations
                         .HasForeignKey("ObservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_telemetries_land_observations_observation_temp_id");
+                        .HasConstraintName("fk_telemetries_land_observations_observation_id");
 
                     b.Navigation("Observation");
                 });
@@ -485,7 +774,7 @@ namespace AgriPen.Migrations
                         .HasForeignKey("LocalAddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_weather_predictions_local_addresses_local_address_temp_id2");
+                        .HasConstraintName("fk_weather_predictions_local_addresses_local_address_id");
 
                     b.Navigation("LocalAddress");
                 });
@@ -515,6 +804,22 @@ namespace AgriPen.Migrations
                     b.Navigation("LandObservations");
 
                     b.Navigation("WeatherPredictions");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.Plant", b =>
+                {
+                    b.Navigation("Nitrogen");
+
+                    b.Navigation("Ph");
+
+                    b.Navigation("Phosporus");
+
+                    b.Navigation("Potassium");
+                });
+
+            modelBuilder.Entity("AgriPen.Domain.Entities.PlantSeason", b =>
+                {
+                    b.Navigation("Plant");
                 });
 #pragma warning restore 612, 618
         }
