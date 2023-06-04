@@ -23,7 +23,7 @@ public class ListPlantsEndpoint: EndpointWithoutRequest<List<ListItem>>
     {
         var plants = await _context.Plants
             .AsNoTracking()
-            .Select(x => new ListItem { Name = $"{x.NameID} ({x.Name})", Value = x.Id })
+            .Select(x => new ListItem { Label = $"{x.NameID} ({x.Name})", Value = x.Id })
             .ToListAsync(ct);
 
         await SendOkAsync(plants, ct);

@@ -23,7 +23,7 @@ public class ListSeasonsEndpoint : EndpointWithoutRequest<List<ListItem>>
     {
         var plants = await _context.PlantSeason
             .AsNoTracking()
-            .Select(x => new ListItem { Name = x.Season, Value = x.Id })
+            .Select(x => new ListItem { Label = x.Season, Value = x.Id })
             .ToListAsync(ct);
 
         await SendOkAsync(plants, ct);

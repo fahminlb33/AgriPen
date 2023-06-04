@@ -4,7 +4,7 @@ namespace AgriPen.API.Recommendation;
 
 public class ListItem
 {
-    public string Name { get; set; }
+    public string Label { get; set; }
     public Ulid Value { get; set; }
 }
 
