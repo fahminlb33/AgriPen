@@ -18,9 +18,24 @@ public class AgriDataContext : DbContext
     public DbSet<WeatherPrediction> WeatherPredictions { get; set; }
     public DbSet<Telemetry> Telemetries { get; set; }
 
+    public DbSet<Plant> Plants { get; set; }
+    public DbSet<PlantSeason> PlantSeason { get; set; }
+    public DbSet<PlantNitrogen> PlantNitrogen { get; set; }
+    public DbSet<PlantPhosporus> PlantPhosporus { get; set; }
+    public DbSet<PlantPotassium> PlantPotassium { get; set; }
+    public DbSet<PlantPh> PlantPh { get; set; }
+
     public int HaversineDistance(double lat1, double lon1, double lat2, double lon2)
     {
         throw new NotSupportedException();
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // configure global Ulid type conversion
+        configurationBuilder
+            .Properties<Ulid>()
+            .HaveConversion<EFUlidConverter, EFUlidComparer>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,17 +46,7 @@ public class AgriDataContext : DbContext
             .HasDbFunction(haversineRef)
             .HasName("HaversineDistance");
 
-        // configure user
-        modelBuilder
-            .Entity<User>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-
         // configure gps address
-        modelBuilder
-            .Entity<GpsAddress>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
         modelBuilder
             .Entity<GpsAddress>()
             .HasMany(x => x.DiseasePredictions)
@@ -54,10 +59,6 @@ public class AgriDataContext : DbContext
             .HasForeignKey(x => x.GpsAddressId);
 
         // configure local address
-        modelBuilder
-            .Entity<LocalAddress>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
         modelBuilder
             .Entity<LocalAddress>()
             .HasMany(x => x.WeatherPredictions)
@@ -77,14 +78,6 @@ public class AgriDataContext : DbContext
         // configure weather prediction
         modelBuilder
             .Entity<WeatherPrediction>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<WeatherPrediction>()
-            .Property(x => x.LocalAddressId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<WeatherPrediction>()
             .HasOne(x => x.LocalAddress)
             .WithMany(x => x.WeatherPredictions)
             .HasForeignKey(x => x.LocalAddressId);
@@ -92,35 +85,11 @@ public class AgriDataContext : DbContext
         // configure disease probability
         modelBuilder
             .Entity<DiseaseProbability>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<DiseaseProbability>()
-            .Property(x => x.PredictionId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<DiseaseProbability>()
             .HasOne(x => x.Prediction)
             .WithOne(x => x.Probability)
             .HasForeignKey<DiseasePrediction>(x => x.ProbabilityId);
 
         // configure disease prediction
-        modelBuilder
-            .Entity<DiseasePrediction>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<DiseasePrediction>()
-            .Property(x => x.ProbabilityId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<DiseasePrediction>()
-            .Property(x => x.GpsAddressId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-           .Entity<DiseasePrediction>()
-           .Property(x => x.LocalAddressId)
-           .HasConversion<EFUlidConverter, EFUlidComparer>();
         modelBuilder
             .Entity<DiseasePrediction>()
             .HasOne(x => x.Probability)
@@ -140,31 +109,11 @@ public class AgriDataContext : DbContext
         // configure telemetry
         modelBuilder
             .Entity<Telemetry>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<Telemetry>()
-            .Property(x => x.ObservationId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<Telemetry>()
             .HasOne(x => x.Observation)
             .WithMany(x => x.Telemetries)
             .HasForeignKey(x => x.ObservationId);
 
         // configure land observation
-        modelBuilder
-            .Entity<LandObservation>()
-            .Property(x => x.Id)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<LandObservation>()
-            .Property(x => x.GpsAddressId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
-        modelBuilder
-            .Entity<LandObservation>()
-            .Property(x => x.LocalAddressId)
-            .HasConversion<EFUlidConverter, EFUlidComparer>();
         modelBuilder
             .Entity<LandObservation>()
             .HasOne(x => x.GpsAddress)
@@ -180,5 +129,32 @@ public class AgriDataContext : DbContext
             .HasMany(x => x.Telemetries)
             .WithOne(x => x.Observation)
             .HasForeignKey(x => x.ObservationId);
+
+        // configure plants
+        modelBuilder
+            .Entity<Plant>()
+            .HasOne(x => x.Season)
+            .WithOne(x => x.Plant)
+            .HasForeignKey<PlantSeason>(x => x.PlantId);
+        modelBuilder
+            .Entity<Plant>()
+            .HasMany(x => x.Nitrogen)
+            .WithOne(x => x.Plant)
+            .HasForeignKey(x => x.PlantId);
+        modelBuilder
+            .Entity<Plant>()
+            .HasMany(x => x.Phosporus)
+            .WithOne(x => x.Plant)
+            .HasForeignKey(x => x.PlantId);
+        modelBuilder
+            .Entity<Plant>()
+            .HasMany(x => x.Potassium)
+            .WithOne(x => x.Plant)
+            .HasForeignKey(x => x.PlantId);
+        modelBuilder
+            .Entity<Plant>()
+            .HasMany(x => x.Ph)
+            .WithOne(x => x.Plant)
+            .HasForeignKey(x => x.PlantId);
     }
 }
