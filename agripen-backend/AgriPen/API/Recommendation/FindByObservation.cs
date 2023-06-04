@@ -9,7 +9,7 @@ public class FindByObservationRequest
     public Ulid ObservationId { get; set; }
 }
 
-public class FindByObservationEndpoint : Endpoint<FindByObservationRequest, List<PlantRecommendationDto>>
+public class FindByObservationEndpoint : Endpoint<FindByObservationRequest, List<ListItem>>
 {
     private readonly AgriDataContext _context;
 
@@ -43,25 +43,21 @@ public class FindByObservationEndpoint : Endpoint<FindByObservationRequest, List
         var query = _context.Plants
           .AsNoTracking()
           .Include(x => x.Season)
-          .Include(x => x.Nitrogen)
-          .Include(x => x.Phosporus)
-          .Include(x => x.Potassium)
-          .Include(x => x.Ph)
           .AsQueryable();
 
         // filter by temperature
         var avgTemperature = observation.Telemetries.Average(x => x.AirTemperature);
         query = query
-            .Where(x => x.Season.TempDayLow >= avgTemperature && x.Season.TempNightHigh <= avgTemperature)
-            .Where(x => x.Season.TempNightLow >= avgTemperature && x.Season.TempNightHigh <= avgTemperature);
+            .Where(x => avgTemperature >= x.Season.TempDayLow && avgTemperature <= x.Season.TempNightHigh)
+            .Where(x => avgTemperature >= x.Season.TempNightLow && avgTemperature <= x.Season.TempNightHigh);
 
         // filter by humidity
         var avgHumidity = observation.Telemetries.Average(x => x.AirHumidity);
-        query = query.Where(x => x.Season.HumidityLow >= avgHumidity && x.Season.HumidityHigh <= avgHumidity);
+        query = query.Where(x => avgHumidity >= x.Season.HumidityLow && avgHumidity <= x.Season.HumidityHigh);
 
         // filter by soil moisture
         var avgSoilMoisture = observation.Telemetries.Average(x => x.SoilMoisture);
-        query = query.Where(x => x.Season.SoilMoistureLow >= avgSoilMoisture && x.Season.SoilMoistureHigh <= avgSoilMoisture);
+        query = query.Where(x => avgSoilMoisture >= x.Season.SoilMoistureLow && avgSoilMoisture <= x.Season.SoilMoistureHigh);
 
         // get all
         var data = await query.ToListAsync(ct);
@@ -73,17 +69,12 @@ public class FindByObservationEndpoint : Endpoint<FindByObservationRequest, List
 
         // project
         var mapped = data
-            .Select(x => new PlantRecommendationDto()
+            .Select(x => new ListItem()
             {
-                Id = x.Id,
+                ID = x.Id,
                 Name = x.Name,
                 NameID = x.NameID,
-
-                Season = x.Season.ToDto(),
-                Nitrogen = x.Nitrogen.ToDto(),
-                Phosporus = x.Phosporus.ToDto(),
-                Potassium = x.Potassium.ToDto(),
-                Ph = x.Ph.ToDto(),
+                Season = x.Season.Season,
             })
             .ToList();
 

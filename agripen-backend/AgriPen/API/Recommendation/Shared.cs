@@ -2,10 +2,18 @@
 
 namespace AgriPen.API.Recommendation;
 
+public class DropListItem
+{
+    public Ulid Value { get; set; }
+    public string Label { get; set; }
+}
+
 public class ListItem
 {
-    public string Label { get; set; }
-    public Ulid Value { get; set; }
+    public Ulid ID { get; set; }
+    public string Name { get; set; }
+    public string NameID { get; set; }
+    public string Season { get; set; }
 }
 
 public class PlantRecommendationDto

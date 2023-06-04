@@ -16,7 +16,7 @@ public class FindByParametersRequest
     public double? SoilMoisture { get; set; }
 }
 
-public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<PlantRecommendationDto>>
+public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<ListItem>>
 {
     private readonly AgriDataContext _context;
 
@@ -37,10 +37,6 @@ public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<P
         var query = _context.Plants
             .AsNoTracking()
             .Include(x => x.Season)
-            .Include(x => x.Nitrogen)
-            .Include(x => x.Phosporus)
-            .Include(x => x.Potassium)
-            .Include(x => x.Ph)
             .AsQueryable();
 
         // filter by season
@@ -53,20 +49,20 @@ public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<P
         if (req.Temperature > 0)
         {
             query = query
-                .Where(x => x.Season.TempDayLow >= req.Temperature && x.Season.TempNightHigh <= req.Temperature)
-                .Where(x => x.Season.TempNightLow >= req.Temperature && x.Season.TempNightHigh <= req.Temperature);
+                .Where(x => req.Temperature >= x.Season.TempDayLow && req.Temperature <= x.Season.TempNightHigh)
+                .Where(x => req.Temperature >=x.Season.TempNightLow && req.Temperature <= x.Season.TempNightHigh);
         }
 
         // filter by humidity
         if (req.Humidity > 0)
         {
-            query = query.Where(x => x.Season.HumidityLow >= req.Humidity && x.Season.HumidityHigh <= req.Humidity);
+            query = query.Where(x => req.Humidity >= x.Season.HumidityLow &&  req.Humidity<= x.Season.HumidityHigh);
         }
 
         // filter by soil moisture
         if (req.SoilMoisture > 0)
         {
-            query = query.Where(x => x.Season.SoilMoistureLow >= req.SoilMoisture && x.Season.SoilMoistureHigh <= req.SoilMoisture);
+            query = query.Where(x => req.SoilMoisture >= x.Season.SoilMoistureLow && req.SoilMoisture <= x.Season.SoilMoistureHigh);
         }
 
         // get all
@@ -79,17 +75,12 @@ public class FindByParametersEndpoint : Endpoint<FindByParametersRequest, List<P
 
         // project
         var mapped = data
-            .Select(x => new PlantRecommendationDto()
+            .Select(x => new ListItem()
             {
-                Id = x.Id,
+                ID = x.Id,
                 Name = x.Name,
                 NameID = x.NameID,
-
-                Season = x.Season.ToDto(),
-                Nitrogen = x.Nitrogen.ToDto(),
-                Phosporus = x.Phosporus.ToDto(),
-                Potassium = x.Potassium.ToDto(),
-                Ph = x.Ph.ToDto(),
+                Season = x.Season.Season,
             })
             .ToList();
 

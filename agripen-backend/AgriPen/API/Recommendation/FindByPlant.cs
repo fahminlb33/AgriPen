@@ -1,15 +1,17 @@
 ﻿using AgriPen.Infrastructure;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AgriPen.API.Recommendation;
 
 public class FindByPlantRequest
 {
-    public Ulid PlantId { get; set; }
+    [BindFrom("q")]
+    public string Name { get; set; }
 }
 
-public class FindByPlantEndpoint : Endpoint<FindByPlantRequest, PlantRecommendationDto>
+public class FindByPlantEndpoint : Endpoint<FindByPlantRequest, List<ListItem>>
 {
     private readonly AgriDataContext _context;
 
@@ -20,41 +22,37 @@ public class FindByPlantEndpoint : Endpoint<FindByPlantRequest, PlantRecommendat
 
     public override void Configure()
     {
-        Get("/recommendation/plants/{PlantId}");
+        Get("/recommendation/plants");
         Roles();
     }
 
     public override async Task HandleAsync(FindByPlantRequest req, CancellationToken ct)
     {
         // query plant
-        var plant = await _context.Plants
+        var data = await _context.Plants
             .AsNoTracking()
             .Include(x => x.Season)
-            .Include(x => x.Nitrogen)
-            .Include(x => x.Phosporus)
-            .Include(x => x.Potassium)
-            .Include(x => x.Ph)
-            .FirstOrDefaultAsync(x => x.Id == req.PlantId, ct);
+            .Where(x => EF.Functions.Like(x.Name, $"%{req.Name}%") || EF.Functions.Like(x.NameID, $"%{req.Name}%"))
+            .ToListAsync(ct);
 
         // plant is not found
-        if (plant == null)
+        if (data.Count == 0)
         {
-            await SendNotFoundAsync(ct);
+            await SendNoContentAsync(ct);
             return;
         }
 
         // project
-        await SendOkAsync(new PlantRecommendationDto()
-        {
-            Id = plant.Id,
-            Name = plant.Name,
-            NameID = plant.NameID,
+        var mapped = data
+            .Select(x => new ListItem()
+            {
+                ID = x.Id,
+                Name = x.Name,
+                NameID = x.NameID,
+                Season = x.Season.Season,
+            })
+            .ToList();
 
-            Season = plant.Season.ToDto(),
-            Nitrogen = plant.Nitrogen.ToDto(),
-            Phosporus = plant.Phosporus.ToDto(),
-            Potassium = plant.Potassium.ToDto(),
-            Ph = plant.Ph.ToDto(),
-        }, ct);
+        await SendOkAsync(mapped, ct);
     }
 }
