@@ -1,7 +1,11 @@
-FRONTEND_TAG=v1.5
+#!/bin/bash
+
+FRONTEND_TAG=v1.6
 BACKEND_TAG=v1.14
-WORKER_TAG=v1.3
-NGINX_TAG=v1.5
+WORKER_TAG=v1.4
+NGINX_TAG=v1.6
+
+REPOSITORY=agripen.azurecr.io
 
 docker stop $(docker ps -a | grep -v -i "redis" | awk 'NR>1 {print $1}')
 docker rm $(docker ps -a | grep -v -i "redis" | awk 'NR>1 {print $1}')
@@ -12,7 +16,7 @@ docker run \
   --name agripen-frontend \
   --network agripen \
   --restart always \
-  agripen.azurecr.io/agripen-frontend:$FRONTEND_TAG || true
+  $REPOSITORY/agripen-frontend:$FRONTEND_TAG || true
 
 docker run \
   -d \
@@ -21,7 +25,7 @@ docker run \
   --name agripen-backend \
   --network agripen \
   --restart always \
-  agripen.azurecr.io/agripen:$BACKEND_TAG || true
+  $REPOSITORY/agripen:$BACKEND_TAG || true
 
 docker run \
   -d \
@@ -29,7 +33,7 @@ docker run \
   --name agripen-worker \
   --network agripen \
   --restart always \
-  agripen.azurecr.io/agripen-worker:$WORKER_TAG || true
+  $REPOSITORY/agripen-worker:$WORKER_TAG || true
 
 docker run \
   -d \
@@ -38,4 +42,4 @@ docker run \
   --name agripen-nginx \
   --network agripen \
   --restart always \
-  agripen.azurecr.io/agripen-nginx:$NGINX_TAG || true
+  $REPOSITORY/agripen-nginx:$NGINX_TAG || true

@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 import logging
 import tempfile
@@ -122,20 +119,20 @@ if __name__ == '__main__':
   signal.signal(signal.SIGTERM, signal_handler)
 
   # connect to db
-  engine = create_engine(config.azure_sql_connection_string, echo=True)
+  engine = create_engine(config.AZURE_SQL_CONNECTION_STRING, echo=True)
 
   # create client
-  blob_client: BlobServiceClient = BlobServiceClient.from_connection_string(config.azure_storage_connection_string)
-  container_client: ContainerClient = blob_client.get_container_client(config.azure_storage_container_name)
+  blob_client: BlobServiceClient = BlobServiceClient.from_connection_string(config.AZURE_STORAGE_CONNECTION_STRING)
+  container_client: ContainerClient = blob_client.get_container_client(config.AZURE_STORAGE_CONTAINER_NAME)
 
   # load model
   predictor_service = PredictorService()
-  predictor_service.load_model(config.model_path, config.class_names_path)
+  predictor_service.load_model(config.MODEL_PATH, config.CLASS_NAMES_PATH)
 
   # connect to redis
-  client = redis.Redis(host=config.redis_host, port=config.redis_port)
+  client = redis.Redis(host=config.REDIS_HOST, port=config.REDIS_PORT)
   pubsub = client.pubsub()
-  pubsub.subscribe(config.redis_topic)
+  pubsub.subscribe(config.REDIS_TOPIC)
 
   # listen for messages
   logging.info('Listening for messages...')
