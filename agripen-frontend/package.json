@@ -1,0 +1,47 @@
+{
+  "name": "agripen-frontend",
+  "private": true,
+  "version": "1.6",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "rome check .",
+    "format": "rome format --write .",
+    "push": "bash ./build-and-push.sh"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@mantine/core": "^6.0.11",
+    "@mantine/dates": "^6.0.11",
+    "@mantine/dropzone": "^6.0.11",
+    "@mantine/form": "^6.0.11",
+    "@mantine/hooks": "^6.0.11",
+    "@mantine/modals": "^6.0.11",
+    "@mantine/notifications": "^6.0.11",
+    "@tabler/icons-react": "^2.20.0",
+    "axios": "^1.4.0",
+    "leaflet": "^1.9.4",
+    "lodash-es": "^4.17.21",
+    "mantine-datatable": "^2.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-geolocated": "^4.1.0",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^6.11.2",
+    "recharts": "^2.6.2"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.3",
+    "@types/lodash-es": "^4.17.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "rome": "12.1.2",
+    "sharp": "^0.32.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2",
+    "vite-plugin-image-optimizer": "^1.1.4"
+  }
+}
