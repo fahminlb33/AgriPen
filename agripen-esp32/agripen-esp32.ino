@@ -83,8 +83,15 @@ void send(char* code, float data) {
   Serial.println(data, 2);
 }
 
+void blink() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(250);
+  digitalWrite(LED_BUILTIN, LOW);
+}
+
 void setup() {
   // initialize pins
+  pinMode(LED_BUILTIN, OUTPUT);
   pinMode(LDR_PIN, INPUT);
   pinMode(SOIL_MOISTURE_PIN, INPUT);
 
@@ -127,5 +134,9 @@ void loop() {
   // END message
   sendTerminator(false);
 
+  // blink to indicate successful iteration
+  blink();
+
+  // delay for a second
   delay(1000);
 }
