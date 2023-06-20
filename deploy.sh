@@ -1,9 +1,9 @@
 #!/bin/bash
 
-FRONTEND_TAG=v1.6
-BACKEND_TAG=v1.14
-WORKER_TAG=v1.4
-NGINX_TAG=v1.6
+FRONTEND_TAG=v2.0
+BACKEND_TAG=v2.0
+WORKER_TAG=v2.0
+NGINX_TAG=v2.0
 
 REPOSITORY=agripen.azurecr.io
 
@@ -20,7 +20,7 @@ docker run \
 
 docker run \
   -d \
-  -v ./backend-env.json:/app/appsettings.json:ro \
+  -v $(pwd)/backend-env.json:/app/appsettings.json:ro \
   --env ASPNETCORE_ENVIRONMENT=Production \
   --name agripen-backend \
   --network agripen \
