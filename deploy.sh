@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FRONTEND_TAG=v2.0
+FRONTEND_TAG=v2.1
 BACKEND_TAG=v2.0
 WORKER_TAG=v2.0
 NGINX_TAG=v2.0
@@ -9,6 +9,8 @@ REPOSITORY=agripen.azurecr.io
 
 docker stop $(docker ps -a | grep -v -i "redis" | awk 'NR>1 {print $1}')
 docker rm $(docker ps -a | grep -v -i "redis" | awk 'NR>1 {print $1}')
+
+docker image prune -f
 
 # docker run -d --name redis --network agripen redis || true
 docker run \

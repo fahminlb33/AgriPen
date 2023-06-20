@@ -3,7 +3,7 @@ MODEL_URL="https://blob.kodesiana.com/kodesiana-ai-public/models/skripsi_klasifi
 CLASS_NAMES_URL="https://blob.kodesiana.com/kodesiana-ai-public/models/skripsi_klasifikasi_penyakit_padi/python/class_names-289106b3e245440c97dedef10cafd8c1l.z"
 
 CONTAINER_NAME="agripen-worker"
-IMAGE_FULLNAME="agripen.azurecr.io/agripen-worker:v1.4"
+IMAGE_FULLNAME="agripen.azurecr.io/agripen-worker:v2.0"
 
 # Commands
 download:

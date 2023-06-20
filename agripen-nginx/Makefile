@@ -1,5 +1,5 @@
 # Variables
-IMAGE_FULLNAME="agripen.azurecr.io/agripen-nginx:v1.6"
+IMAGE_FULLNAME="agripen.azurecr.io/agripen-nginx:v2.0"
 
 # Commands
 build:
