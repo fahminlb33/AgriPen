@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AgriPenMobile.Services;
 
 namespace AgriPenMobile.API;
@@ -15,9 +10,8 @@ public interface IAgriAPI
     Task<bool> TestToken();
     Task LoginAsync(string username, string password);
     Task DiseaseAnalysisAsync(Stream stream, GpsData location);
-    Task<TelemetryResponse> PushTelemetryAsync(List<TelemetryItem> sensors, GpsData location);
-    Task PushImageAsync(string id, List<string> photos);
-
+    Task<TelemetryResponse> TelemetryAsync(List<TelemetryItem> sensors, GpsData location);
+    Task TelemetryImageAsync(string id, List<string> photos);
 }
 
 public class AgriClient : IAgriAPI
@@ -126,7 +120,7 @@ public class AgriClient : IAgriAPI
         res.EnsureSuccessStatusCode();
     }
 
-    public async Task<TelemetryResponse> PushTelemetryAsync(List<TelemetryItem> sensors, GpsData location)
+    public async Task<TelemetryResponse> TelemetryAsync(List<TelemetryItem> sensors, GpsData location)
     {
         // create request
         var req = new HttpRequestMessage(HttpMethod.Post, "land-observations");
@@ -144,7 +138,7 @@ public class AgriClient : IAgriAPI
         return await res.Content.ReadFromJsonAsync<TelemetryResponse>();
     }
 
-    public async Task PushImageAsync(string id, List<string> photos)
+    public async Task TelemetryImageAsync(string id, List<string> photos)
     {
         foreach (var item in photos.Take(5)) // limit to 5 pictures
         {

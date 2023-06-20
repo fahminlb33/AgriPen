@@ -53,17 +53,17 @@ public partial class MeasurementViewModel : ObservableObject
         });
         Measurements.Add(new()
         {
-            Name = "Pencahyaan matahari",
-            Value = 0
-        });
-        Measurements.Add(new()
-        {
-            Name = "Suhu tanah",
+            Name = "Heat index",
             Value = 0
         });
         Measurements.Add(new()
         {
             Name = "Kelembapan tanah",
+            Value = 0
+        });
+        Measurements.Add(new()
+        {
+            Name = "Pencahyaan matahari",
             Value = 0
         });
         Measurements.Add(new()
@@ -176,8 +176,8 @@ public partial class MeasurementViewModel : ObservableObject
         _processed++;
         Measurements[0].Value = obj.AirTemperature;
         Measurements[1].Value = obj.AirHumidity;
+        Measurements[3].Value = obj.AirHeatIndex;
         Measurements[2].Value = obj.SunIllumination;
-        Measurements[3].Value = obj.SoilTemperature;
         Measurements[4].Value = obj.SoilMoisture;
 
         Status = $"{MaxObservations - _processed} dari {MaxObservations}...";
@@ -193,10 +193,10 @@ public partial class MeasurementViewModel : ObservableObject
             {
                 // send telemetry
                 var data = _blueLogger.Data.Select(x => x.ToTelemetry()).ToList();
-                var result = await _api.PushTelemetryAsync(data, _location.ToGpsData());
+                var result = await _api.TelemetryAsync(data, _location.ToGpsData());
 
                 // upload pictures
-                await _api.PushImageAsync(result.Id, _photos);
+                await _api.TelemetryImageAsync(result.Id, _photos);
 
                 // set ready
                 Status = "Data tersimpan!";

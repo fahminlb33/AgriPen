@@ -16,7 +16,7 @@ public class TelemetryItem
     public DateTime Timestamp { get; set; }
     public double AirTemperature { get; set; }
     public double AirHumidity { get; set; }
-    public double SoilTemperature { get; set; }
+    public double AirHeatIndex { get; set; }
     public double SoilMoisture { get; set; }
     public double SunIllumination { get; set; }
 }

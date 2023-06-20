@@ -21,8 +21,8 @@ public static class Helpers
         {
             AirTemperature = d.AirTemperature,
             AirHumidity = d.AirHumidity,
+            AirHeatIndex = d.AirHeatIndex,
             SunIllumination = d.SunIllumination,
-            SoilTemperature = d.SoilTemperature,
             SoilMoisture = d.SoilMoisture,
         };
     }
