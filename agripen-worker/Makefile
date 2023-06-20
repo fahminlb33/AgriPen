@@ -7,9 +7,9 @@ IMAGE_FULLNAME="agripen.azurecr.io/agripen-worker:v1.4"
 
 # Commands
 download:
-	mkdir -p model
-	curl -o ${CURDIR}/model/model.h5 ${MODEL_URL}
-	curl -o ${CURDIR}/model/class_names.z ${CLASS_NAMES_URL}
+	mkdir -p data
+	curl -o ${CURDIR}/data/model.h5 ${MODEL_URL}
+	curl -o ${CURDIR}/data/class_names.z ${CLASS_NAMES_URL}
 	echo "Model and class names downloaded"
 
 run:

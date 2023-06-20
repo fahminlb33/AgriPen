@@ -1,6 +1,6 @@
-import os
+from pydantic import BaseSettings
 
-class AgriConfig:
+class AgriConfig(BaseSettings):
     FORECAST_CSV_URL: str
     KECAMATAN_CSV_URL: str
 
@@ -9,8 +9,8 @@ class AgriConfig:
 
     AZURE_SQL_CONNECTION_STRING: str
 
-    MODEL_PATH: str = "models/model.h5"
-    CLASS_NAMES_PATH: str = "models/class_names.z"
+    MODEL_PATH: str = "data/model.h5"
+    CLASS_NAMES_PATH: str = "data/class_names.z"
 
     REDIS_HOST: str = "localhost"
     REDIS_PORT: int = 6379
