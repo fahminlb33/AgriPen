@@ -27,7 +27,9 @@ Docker route:
 
 1. Clone this repo
 2. Install [Docker](https://docs.docker.com/get-docker/)
-3. Run `deploy-all.sh`
+3. Edit the `build.sh` and `deploy.sh`, change the repository and optionally the image tag
+4. Run `build.sh`
+5. Run `deploy.sh`
 
 Development route:
 
