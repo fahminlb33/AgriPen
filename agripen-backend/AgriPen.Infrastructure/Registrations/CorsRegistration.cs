@@ -20,7 +20,7 @@ public static class CorsRegistration
                     policy.AllowAnyMethod();
                     policy.AllowAnyHeader();
                     policy.AllowCredentials();
-                    policy.WithOrigins();
+                    policy.WithOrigins("http://localhost:4000");
                 });
             }
             else
