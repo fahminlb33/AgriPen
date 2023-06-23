@@ -35,8 +35,8 @@ public partial class HomeViewModel : ObservableObject
             if (grantStatus != PermissionStatus.Granted)
             {
                 Status = "Perlu konfigurasi izin sistem. Periksa pengaturan.";
-                IsAnalysisEnabled = false;
-                return;
+                //IsAnalysisEnabled = false;
+                //return;
             }
 
             // get the token
