@@ -1,6 +1,13 @@
 FROM tensorflow/tensorflow:2.10.0
 
+ARG MODEL_URL
+ARG CLASS_NAMES_URL
+
 WORKDIR /workdir
+
+RUN mkdir -p "/workdir/data"
+ADD $MODEL_URL /workdir/data/model.h5
+ADD $CLASS_NAMES_URL /workdir/data/class_names.z
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates curl gnupg gpg \
@@ -18,6 +25,5 @@ COPY ./requirements.txt /workdir/requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./app /workdir/app
-COPY ./data /workdir/data
 
 CMD ["python3", "/workdir/app/worker.py"]

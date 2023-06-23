@@ -234,7 +234,6 @@ export function List() {
 					<Stack spacing={0} mr="xl">
 						<Title order={5}>Cari berdasarkan Analisis Lahan</Title>
 						<Select
-							searchable
 							label="Analisis lahan"
 							data={observationData}
 							w={300}

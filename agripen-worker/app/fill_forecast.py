@@ -7,7 +7,7 @@ from shared.config import config
 from shared.helpers import MAP_WEATHER, MAP_WIND
 
 # create engine
-engine = create_engine(config.azure_sql_connection_string, echo=True)
+engine = create_engine(config.AZURE_SQL_CONNECTION_STRING, echo=True)
 
 # load kecamatan
 with engine.connect() as con:
@@ -17,7 +17,7 @@ with engine.connect() as con:
 
 # load forecast
 columns = ['code', 'timestamp', 'temperature_low', 'temperature_high', 'humidity_low', 'humidity_high', 'humidity', 'temperature', 'weather', 'wind', 'wind_speed']
-df = pd.read_csv('kecamatanforecast-jawabarat.csv', names=columns, delimiter=';')
+df = pd.read_csv(config.FORECAST_CSV_URL, names=columns, delimiter=';')
 
 # preprocess
 df = df.dropna()
