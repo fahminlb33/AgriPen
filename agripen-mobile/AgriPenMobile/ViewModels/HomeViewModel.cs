@@ -31,7 +31,7 @@ public partial class HomeViewModel : ObservableObject
             OnPropertyChanged(nameof(IsAnalysisEnabled));
 
             // check for permissions
-            var grantStatus = await Permissions.RequestAsync<AgriPlatformPermissions>();
+            var grantStatus = await Permissions.RequestAsync<AgriUploadPermissions>();
             if (grantStatus != PermissionStatus.Granted)
             {
                 Status = "Perlu konfigurasi izin sistem. Periksa pengaturan.";

@@ -33,7 +33,7 @@ public partial class UploadDiseaseViewModel : ObservableObject
         try
         {
             // check for permissions
-            var grantStatus = await Permissions.RequestAsync<AgriPlatformPermissions>();
+            var grantStatus = await Permissions.RequestAsync<AgriUploadPermissions>();
             if (grantStatus != PermissionStatus.Granted)
             {
                 throw new Exception("Aplikasi AgriPen belum mendapat akses layanan lokasi dan Bluetooth. Silakan perbarui pengaturan sistem Anda.");
